@@ -1,0 +1,48 @@
+{
+  "name": "ledgerparse",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "dev:all": "docker compose up -d --wait && npm run dev",
+    "dev:down": "docker compose down",
+    "build": "npm run build -w frontend",
+    "start": "npm run start -w backend",
+    "lint": "eslint .",
+    "lint:frontend": "eslint frontend",
+    "lint:backend": "eslint backend eslint.config.js",
+    "typecheck": "npm run typecheck -w frontend",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:frontend": "npm test -w frontend",
+    "test:backend": "npm test -w backend",
+    "generate:samples": "npm run generate:samples -w backend",
+    "prepare": "node -e \"if(require('fs').existsSync('.git')) require('child_process').execSync('husky',{stdio:'inherit'})\""
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "globals": "^15.12.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.4.1",
+    "typescript-eslint": "^8.69.0"
+  }
+}
