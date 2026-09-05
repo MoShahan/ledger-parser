@@ -4,25 +4,26 @@ Turn messy vendor invoices into structured data you can review and trust.
 
 Upload a PDF (or try a sample). We pull the text, Gemini fills a fixed schema, a validator flags mismatches, and you confirm or edit. Your edit is the source of truth.
 
-Architecture: [ARCHITECTURE.md](./ARCHITECTURE.md) · Data model: [ERD.md](./ERD.md)
+Architecture: [ARCHITECTURE.md](./ARCHITECTURE.md)
+Data model: [ERD.md](./ERD.md)
 
 **Live:** add the Railway URL here after first deploy.
 
 ## Screenshots
 
-### Inbox — samples, upload, and Recent
+### Inbox - samples, upload, and Recent
 
 ![Inbox with sample actions and recent invoices](docs/screenshots/01-inbox.png)
 
-### Review — clean extract (Ready)
+### Review - clean extract (Ready)
 
 PDF on the left, trusted fields on the right. Confirm & save when you are happy.
 
 ![Review screen for a clean invoice marked Ready](docs/screenshots/02-review-ready.png)
 
-### Review — totals mismatch (Needs review)
+### Review - totals mismatch (Needs review)
 
-Validator banner when line items do not add up to the printed total. Fix the total and save — your edit wins.
+Validator banner when line items do not add up to the printed total. Fix the total and save - your edit wins.
 
 ![Review screen showing TOTAL_MISMATCH needs review](docs/screenshots/03-review-mismatch.png)
 
