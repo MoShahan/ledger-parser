@@ -13,19 +13,13 @@ Data model: [ERD.md](./ERD.md)
 
 ### Inbox - samples, upload, and Recent
 
-![Inbox with sample actions and recent invoices](docs/screenshots/01-inbox.png)
+![Inbox with sample actions and recent invoices](docs/screenshots/inbox.png)
 
-### Review - clean extract (Ready)
+### Review
 
 PDF on the left, trusted fields on the right. Confirm & save when you are happy.
 
-![Review screen for a clean invoice marked Ready](docs/screenshots/02-review-ready.png)
-
-### Review - totals mismatch (Needs review)
-
-Validator banner when line items do not add up to the printed total. Fix the total and save - your edit wins.
-
-![Review screen showing TOTAL_MISMATCH needs review](docs/screenshots/03-review-mismatch.png)
+![Review screen](docs/screenshots/review.png)
 
 ## Local setup
 
