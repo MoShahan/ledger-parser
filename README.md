@@ -5,6 +5,7 @@ Turn messy vendor invoices into structured data you can review and trust.
 Upload a PDF (or try a sample). We pull the text, Gemini fills a fixed schema, a validator flags mismatches, and you confirm or edit. Your edit is the source of truth.
 
 Architecture: [ARCHITECTURE.md](./ARCHITECTURE.md)
+
 Data model: [ERD.md](./ERD.md)
 
 **Live:** [https://ledger-parser-production.up.railway.app/](https://ledger-parser-production.up.railway.app/)
