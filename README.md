@@ -66,7 +66,7 @@ One service.
 
 1. Create a GitHub repo and push this project
 2. New Railway project from that repo
-3. Add Postgres (`DATABASE_URL` is injected)
+3. Add a **Postgres** database in the same project, then on the **app** service → Variables → add `DATABASE_URL` as a reference to the Postgres variable (e.g. `${{Postgres.DATABASE_URL}}`). Without this link the start command exits with `DATABASE_URL is required`.
 4. Set `GEMINI_API_KEY`, `UPLOAD_DIR=/data/uploads`
 5. Mount a volume at `/data/uploads`
 6. Build via `nixpacks.toml`: `npm ci --include=dev` then `npm run build` - start: `npm start`  
