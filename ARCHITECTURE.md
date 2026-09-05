@@ -87,7 +87,7 @@ flowchart TB
   Service --> Gemini["Gemini"]
 ```
 
-- Build: `npm ci && npm run build` (Vite → `frontend/dist`)
+- Build: Nixpacks `npm ci --include=dev` then `npm run build` (Vite → `frontend/dist`)
 - Start: `npm start` (Express serves `frontend/dist` + `/api` + `/health`)
 - Config: `railway.json` (Nixpacks, healthcheck `/health`)
 

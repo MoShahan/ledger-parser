@@ -69,7 +69,8 @@ One service.
 3. Add Postgres (`DATABASE_URL` is injected)
 4. Set `GEMINI_API_KEY`, `UPLOAD_DIR=/data/uploads`
 5. Mount a volume at `/data/uploads`
-6. Build: `npm ci && npm run build` - start: `npm start`
+6. Build via `nixpacks.toml`: `npm ci --include=dev` then `npm run build` - start: `npm start`  
+   (Do not put `npm ci` in Railway’s build command - it double-runs against a locked `node_modules/.cache`.)
 
 This is a single demo workspace (no auth). Anyone with the URL can upload.
 
