@@ -200,6 +200,11 @@ ${clipped}`;
           console.warn(`[gemini] ${modelId} not found, trying next model`);
           break;
         }
+        // 429/quota: further retries and fallback models burn the free-tier budget.
+        if (classified.code === 'RATE_LIMIT') {
+          console.warn(`[gemini] RATE_LIMIT on ${modelId}, failing without more attempts`);
+          throw classified;
+        }
         const canRetry = classified.retryable && attempt < retries;
         if (!canRetry) {
           if (classified.retryable) {

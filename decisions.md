@@ -31,3 +31,5 @@
 15. **ARCHITECTURE.md.** Reviewers need one place for system shape, pipeline, API, and deploy without reading the whole repo. The architecture doc points at ERD and decisions; it is not a changelog.
 
 16. **Railway build is `npm run build` only.** Nixpacks already runs `npm ci` in install and mounts a cache at `node_modules/.cache`. Putting `npm ci` in `buildCommand` again made the second clean install hit `EBUSY` on that mount. `nixpacks.toml` installs with `--include=dev` so Vite/TypeScript (frontend `devDependencies`) are present for the build, then runs `npm run build`.
+
+17. **Stable toasts; fail fast on RATE_LIMIT.** JobWait depended on a toast API recreated every render, so a failed job toast re-ran the poll effect and stacked identical errors / constant `/api/jobs/:id` fetches. Toast context is memoized, duplicates are skipped, and failed jobs rely on the page UI (no toast). Poll no longer lists `toast` as an effect dep (ref instead) and clears the interval on terminal status. Gemini 429 no longer retries or walks fallback models - that only burned free-tier quota.
