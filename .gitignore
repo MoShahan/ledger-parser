@@ -6,3 +6,4 @@ uploads
 coverage
 *.log
 .railway
+.cursor
