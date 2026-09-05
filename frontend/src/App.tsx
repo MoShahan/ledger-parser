@@ -1,0 +1,70 @@
+import { Link, NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+
+import Inbox from './pages/Inbox';
+import JobWait from './pages/JobWait';
+import Review from './pages/Review';
+import { ToastProvider } from './toast';
+
+function Sidebar() {
+  const { pathname } = useLocation();
+  const inboxActive =
+    pathname === '/' || pathname.startsWith('/jobs') || pathname.startsWith('/invoices');
+
+  return (
+    <aside className="sidebar">
+      <Link to="/" className="brand" title="Go to inbox">
+        <span className="brand-mark" aria-hidden="true" />
+        Ledger Parse
+      </Link>
+
+      <p className="nav-label">Navigate</p>
+      <nav>
+        <NavLink
+          to="/"
+          end
+          className={inboxActive ? 'nav-link active' : 'nav-link'}
+          title="Open the invoice inbox"
+        >
+          <span className="nav-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect
+                x="2"
+                y="3"
+                width="12"
+                height="10"
+                rx="2"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path d="M2 6h12" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+          </span>
+          Inbox
+        </NavLink>
+      </nav>
+
+      <div className="sidebar-note">
+        <p className="sidebar-note-title">How it works</p>
+        <p>Review uncertain invoice fields. Your edit is the source of truth.</p>
+      </div>
+    </aside>
+  );
+}
+
+export default function App() {
+  return (
+    <ToastProvider>
+      <div className="app-shell">
+        <Sidebar />
+        <main className="main">
+          <Routes>
+            <Route path="/" element={<Inbox />} />
+            <Route path="/jobs/:jobId" element={<JobWait />} />
+            <Route path="/invoices/:id" element={<Review />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+      </div>
+    </ToastProvider>
+  );
+}
