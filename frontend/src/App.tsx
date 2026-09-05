@@ -13,7 +13,7 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <Link to="/" className="brand" title="Go to inbox">
-        <span className="brand-mark" aria-hidden="true" />
+        <img className="brand-mark" src="/favicon.svg" alt="" width={28} height={28} />
         Ledger Parse
       </Link>
 
