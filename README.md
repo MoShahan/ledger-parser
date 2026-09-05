@@ -7,7 +7,7 @@ Upload a PDF (or try a sample). We pull the text, Gemini fills a fixed schema, a
 Architecture: [ARCHITECTURE.md](./ARCHITECTURE.md)
 Data model: [ERD.md](./ERD.md)
 
-**Live:** add the Railway URL here after first deploy.
+**Live:** [https://ledger-parser-production.up.railway.app/](https://ledger-parser-production.up.railway.app/)
 
 ## Screenshots
 
