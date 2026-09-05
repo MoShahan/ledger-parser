@@ -95,9 +95,7 @@ export default function JobWait() {
       await retryJob(jobId);
       toast.info('Retrying extraction…');
       setJob((current) =>
-        current
-          ? { ...current, status: 'queued', error_code: null, error_message: null }
-          : current,
+        current ? { ...current, status: 'queued', error_code: null, error_message: null } : current,
       );
       setAttempt((n) => n + 1);
     } catch (err) {
