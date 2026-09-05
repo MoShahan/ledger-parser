@@ -11,7 +11,6 @@ const SAMPLES: {
   key: SampleKey;
   title: string;
   body: string;
-  accent?: boolean;
 }[] = [
   {
     key: 'clean',
@@ -22,7 +21,6 @@ const SAMPLES: {
     key: 'mismatch',
     title: 'Totals mismatch',
     body: 'Wrong total on purpose so you can review and fix it.',
-    accent: true,
   },
   {
     key: 'missing',
@@ -161,7 +159,7 @@ export default function Inbox() {
             <button
               key={sample.key}
               type="button"
-              className={`action-card${sample.accent ? ' action-card-accent' : ''}`}
+              className="action-card"
               disabled={busy}
               title={`Run the ${sample.title} sample`}
               onClick={() => onSample(sample.key)}
