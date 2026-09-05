@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import cors from 'cors';
 import express from 'express';
 
 import { initSchema, pool } from './db.js';
@@ -19,7 +18,6 @@ const port = Number(process.env.PORT || 3001);
 const uploadDir = path.resolve(process.env.UPLOAD_DIR || path.join(repoRoot, 'uploads'));
 fs.mkdirSync(uploadDir, { recursive: true });
 
-app.use(cors());
 app.use(express.json());
 
 app.get('/health', async (_req, res) => {
