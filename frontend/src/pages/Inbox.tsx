@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { fetchInbox, startSample, uploadPdf, type SampleKey } from '../api';
 import StatusChip from '../components/StatusChip';
-import { formatWhen } from '../formatWhen';
 import { useToast } from '../toast';
-import { errorMessage, fieldText, type InboxItem } from '../types';
+import type { InboxItem } from '../types';
+import { errorMessage, fieldText, formatWhen } from '../utils';
 
 const SAMPLES: {
   key: SampleKey;

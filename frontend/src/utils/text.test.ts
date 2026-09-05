@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { errorMessage, fieldText } from './types';
+import { errorMessage, fieldText } from './text';
 
 test('reads Error messages', () => {
   expect(errorMessage(new Error('Upload failed'))).toBe('Upload failed');

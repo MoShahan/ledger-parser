@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { fetchJob, retryJob } from '../api';
-import { estimateProgress, progressLabel } from '../progress';
 import { useToast } from '../toast';
-import { errorMessage, type Job } from '../types';
+import type { Job } from '../types';
+import { errorMessage, estimateProgress, progressLabel } from '../utils';
 
 export default function JobWait() {
   const { jobId } = useParams();

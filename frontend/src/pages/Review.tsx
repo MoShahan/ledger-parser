@@ -5,7 +5,8 @@ import { fetchInvoice, saveInvoice } from '../api';
 import FieldRow from '../components/FieldRow';
 import StatusChip from '../components/StatusChip';
 import { useToast } from '../toast';
-import { errorMessage, fieldText, type FieldKey, type Invoice, type InvoiceFields } from '../types';
+import type { FieldKey, Invoice, InvoiceFields } from '../types';
+import { errorMessage, fieldText } from '../utils';
 
 const FIELD_LABELS: [FieldKey, string, boolean][] = [
   ['vendor', 'Vendor', false],

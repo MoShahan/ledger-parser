@@ -1,4 +1,5 @@
-import { fieldText, type ExtractedField, type FieldKey } from '../types';
+import type { ExtractedField, FieldKey } from '../types';
+import { fieldText } from '../utils';
 
 import StatusChip from './StatusChip';
 
