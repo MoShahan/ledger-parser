@@ -55,20 +55,6 @@ API: [http://localhost:3001/health](http://localhost:3001/health)
 | `npm run format`              | Prettier                                   |
 | `npm run build` / `npm start` | Production: Express serves `frontend/dist` |
 
-## Production (Railway)
-
-One service.
-
-1. Create a GitHub repo and push this project
-2. New Railway project from that repo
-3. Add a **Postgres** database in the same project, then on the **app** service → Variables → add `DATABASE_URL` as a reference to the Postgres variable (e.g. `${{Postgres.DATABASE_URL}}`). Without this link the start command exits with `DATABASE_URL is required`.
-4. Set `GEMINI_API_KEY`, `UPLOAD_DIR=/data/uploads`
-5. Mount a volume at `/data/uploads`
-6. Build via `nixpacks.toml`: `npm ci --include=dev` then `npm run build` - start: `npm start`  
-   (Do not put `npm ci` in Railway’s build command - it double-runs against a locked `node_modules/.cache`.)
-
-This is a single demo workspace (no auth). Anyone with the URL can upload.
-
 ## Database: why three tables
 
 Extraction is async and can fail or be retried. One PDF row is not enough - we need the file, the work attempt, and the structured result as separate things.
