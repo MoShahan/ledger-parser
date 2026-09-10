@@ -18,7 +18,7 @@ Data model: [ERD.md](./ERD.md)
 
 ### Review
 
-PDF on the left, trusted fields on the right. Confirm & save when you are happy.
+PDF on the left, fields on the right. Use **Looks correct** on a flagged field, or edit it, then **Save changes**.
 
 ![Review screen](docs/screenshots/review.png)
 
@@ -70,7 +70,7 @@ Flow in one line: **document** (file) → **job** (work) → **invoice** (result
 ## What to try
 
 1. **Clean** - should land Ready
-2. **Totals mismatch** - fix the total to `1284.60` and save
-3. **Missing invoice #** / **Bad date** - fields flagged for review
+2. **Totals mismatch** - **Looks correct** on the total, or change it to `1284.60`, then save
+3. **Missing invoice #** / **Bad date** - accept or fix only that field; Inbox stays Needs review until every flagged field is handled
 4. **Euro vendor** - different vendor and EUR
 5. Upload a non-PDF or a huge file - human error, no stack trace
