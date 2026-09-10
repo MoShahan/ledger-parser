@@ -5,6 +5,10 @@ export function parseMoney(value) {
 }
 
 function flag(fields, issues, key, code, message) {
+  // User-confirmed values win over the validator (Confirm & save / explicit edit).
+  if (fields[key]?.sourceOfTruth === 'user') {
+    return;
+  }
   if (fields[key]) {
     fields[key] = { ...fields[key], status: 'needs_review' };
   }

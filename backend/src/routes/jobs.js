@@ -14,6 +14,7 @@ router.get('/:id', async (req, res) => {
       return;
     }
     const invoice = await query('SELECT id FROM invoices WHERE job_id = $1', [job.id]);
+    res.set('Cache-Control', 'no-store');
     res.json({
       ...job,
       invoiceId: invoice.rows[0]?.id || null,

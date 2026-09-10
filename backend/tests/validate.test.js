@@ -84,3 +84,17 @@ test('user edit becomes source of truth and can clear a mismatch', () => {
     false,
   );
 });
+
+test('confirming the same mismatched total still becomes ready', () => {
+  const broken = validate(baseFields({ total: field('960.00') }));
+  assert.equal(broken.invoiceStatus, 'needs_review');
+  const confirmed = applyUserEdits(broken.fields, { total: '960.00' });
+  assert.equal(confirmed.fields.total.value, '960.00');
+  assert.equal(confirmed.fields.total.sourceOfTruth, 'user');
+  assert.equal(confirmed.fields.total.status, 'trusted');
+  assert.equal(confirmed.invoiceStatus, 'ready');
+  assert.equal(
+    confirmed.issues.some((issue) => issue.code === 'TOTAL_MISMATCH'),
+    false,
+  );
+});
