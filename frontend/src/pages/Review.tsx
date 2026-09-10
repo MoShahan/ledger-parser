@@ -24,6 +24,7 @@ export default function Review() {
   const toast = useToast();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [draft, setDraft] = useState<InvoiceFields | null>(null);
+  const [dirty, setDirty] = useState<Set<FieldKey>>(() => new Set());
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -34,6 +35,8 @@ export default function Review() {
       .then((data) => {
         setInvoice(data);
         setDraft(data.fields);
+        setDirty(new Set());
+        setSaved(false);
       })
       .catch((err: unknown) => {
         console.error('[review] load failed', err);
@@ -48,6 +51,16 @@ export default function Review() {
     [invoice],
   );
 
+  function markDirty(key: FieldKey) {
+    setDirty((current) => {
+      if (current.has(key)) return current;
+      const next = new Set(current);
+      next.add(key);
+      return next;
+    });
+    setSaved(false);
+  }
+
   function onChange(key: FieldKey, value: unknown) {
     setDraft((current) => {
       if (!current) return current;
@@ -56,24 +69,48 @@ export default function Review() {
         [key]: { ...current[key], value },
       };
     });
-    setSaved(false);
+    markDirty(key);
+  }
+
+  function onAccept(key: FieldKey) {
+    setDraft((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        [key]: {
+          ...current[key],
+          sourceOfTruth: 'user',
+          status: 'trusted',
+        },
+      };
+    });
+    markDirty(key);
   }
 
   async function onSave(event: FormEvent) {
     event.preventDefault();
     if (!id || !draft) return;
+    if (dirty.size === 0) {
+      toast.info('Accept or edit at least one field, then save.');
+      return;
+    }
     setSaving(true);
     setError('');
     try {
       const fields: Partial<Record<FieldKey, unknown>> = {};
-      for (const [key] of FIELD_LABELS) {
+      for (const key of dirty) {
         fields[key] = draft[key].value;
       }
       const updated = await saveInvoice(id, fields);
       setInvoice(updated);
       setDraft(updated.fields);
+      setDirty(new Set());
       setSaved(true);
-      toast.success('Saved. Your values are the source of truth.');
+      if (updated.status === 'ready') {
+        toast.success('Saved. Invoice is ready.');
+      } else {
+        toast.success('Saved. Some fields still need review.');
+      }
     } catch (err) {
       console.error('[review] save failed', err);
       const message = errorMessage(err);
@@ -102,14 +139,23 @@ export default function Review() {
             {fieldText(draft.invoiceNumber?.value) || invoice.filename}
           </p>
           <h1>Review extract</h1>
-          <p className="lede">Confirm uncertain fields. Your edit becomes the source of truth.</p>
+          <p className="lede">
+            Accept a prefilled value with Looks correct, or edit it. Only fields you touch are saved
+            — others stay Needs review.
+          </p>
         </div>
         <StatusChip status={invoice.status} />
       </header>
 
       {mismatch ? <p className="banner warn">{mismatch.message}</p> : null}
       {error ? <p className="banner error">{error}</p> : null}
-      {saved ? <p className="banner ok">Saved. Your values are the source of truth.</p> : null}
+      {saved ? (
+        <p className="banner ok">
+          {invoice.status === 'ready'
+            ? 'Saved. Invoice is ready.'
+            : 'Saved. Some fields still need review.'}
+        </p>
+      ) : null}
 
       <div className="review-grid">
         <section className="preview-card">
@@ -126,14 +172,15 @@ export default function Review() {
               field={draft[key]}
               isJson={isJson}
               onChange={onChange}
+              onAccept={onAccept}
             />
           ))}
           <div className="actions">
             <Link to="/" className="ghost">
               Skip for now
             </Link>
-            <button type="submit" className="primary" disabled={saving}>
-              {saving ? 'Saving…' : 'Confirm & save'}
+            <button type="submit" className="primary" disabled={saving || dirty.size === 0}>
+              {saving ? 'Saving…' : 'Save changes'}
             </button>
           </div>
         </form>

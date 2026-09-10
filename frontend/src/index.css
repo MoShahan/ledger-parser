@@ -566,7 +566,26 @@ button:disabled {
 
 .field-meta {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+}
+
+.field-accept {
+  margin-left: auto;
+  border: 1px solid rgb(13 115 112 / 35%);
+  background: #fff;
+  color: #0d7370;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.field-accept:hover {
+  background: #f3fbfa;
 }
 
 .actions {
