@@ -33,6 +33,7 @@ export default function JobWait() {
     let cancelled = false;
     let timer: number | undefined;
     let inFlight = false;
+    let consecutiveFailures = 0;
 
     async function poll() {
       if (cancelled || inFlight) return;
@@ -40,7 +41,19 @@ export default function JobWait() {
       try {
         const next = await fetchJob(jobId as string);
         if (cancelled) return;
-        setJob(next);
+        consecutiveFailures = 0;
+        setJob((prev) => {
+          if (
+            prev &&
+            prev.status === next.status &&
+            prev.invoiceId === next.invoiceId &&
+            prev.error_code === next.error_code &&
+            prev.error_message === next.error_message
+          ) {
+            return prev;
+          }
+          return next;
+        });
         setError('');
 
         if (next.invoiceId && (next.status === 'needs_review' || next.status === 'ready')) {
@@ -59,8 +72,10 @@ export default function JobWait() {
           console.error('[job] failed', next.error_code, next.error_message);
         }
       } catch (err) {
+        consecutiveFailures += 1;
         console.error('[job] poll failed', err);
-        if (!cancelled) {
+        // Nodemon restarts / brief proxy blips show as 500/ECONNRESET — keep polling.
+        if (!cancelled && consecutiveFailures >= 3) {
           const message = errorMessage(err);
           setError(message);
           toastRef.current.error(message);
@@ -79,15 +94,18 @@ export default function JobWait() {
     };
   }, [attempt, jobId, navigate]);
 
+  const jobStatus = job?.status;
+  const jobDone = job ? isTerminal(job) : false;
+
   useEffect(() => {
-    if (!job || isTerminal(job)) return undefined;
+    if (!jobStatus || jobDone) return undefined;
     const started = Date.now();
-    setPercent(1);
+    setPercent(estimateProgress(jobStatus, 0));
     const tick = window.setInterval(() => {
-      setPercent(estimateProgress(job.status, Date.now() - started));
+      setPercent(estimateProgress(jobStatus, Date.now() - started));
     }, 120);
     return () => window.clearInterval(tick);
-  }, [attempt, job]);
+  }, [attempt, jobStatus, jobDone]);
 
   async function onRetry() {
     if (!jobId) return;

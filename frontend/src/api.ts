@@ -3,7 +3,7 @@ import type { DocumentJobResponse, InboxItem, Invoice, InvoiceFields, Job } from
 type ErrorBody = { error?: string };
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const res = await fetch(path, options);
+  const res = await fetch(path, { ...options, cache: 'no-store' });
   const data = (await res.json().catch(() => ({}))) as T & ErrorBody;
   if (!res.ok) {
     const message = data.error || `Request failed (${res.status})`;
